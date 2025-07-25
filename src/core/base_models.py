@@ -16,16 +16,13 @@ class TextBlock:
 @dataclass
 class Heading:
     level: str  # H1, H2, H3
-    title: str
+    text : str
     page_number: int
-    section_id: str
-    confidence: float
 
 @dataclass
 class DocumentOutline:
-    document_title: str
+    title : str
     outline: List[Heading]
-    metadata: Dict[str, Any]
     extraction_timestamp: datetime
 
 @dataclass

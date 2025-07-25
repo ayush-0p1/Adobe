@@ -1,4 +1,6 @@
-# tests/test_basic_functionality.py
+import os, sys
+sys.path.insert(0, os.path.abspath("."))
+sys.path.append(os.path.abspath("src"))
 import pytest
 import json
 from src.core.pdf_processor import PDFProcessor
@@ -13,10 +15,20 @@ def test_pdf_processing():
 def test_outline_extraction():
     extractor = OutlineExtractor()
     outline = extractor.extract_outline("tests/test_pdfs/structured.pdf")
-    assert outline.document_title is not None
+    assert outline.title is not None
     assert len(outline.outline) > 0
 
 def test_json_output_format():
-    # Test JSON schema compliance
-    # Implementation here
-    pass
+    extractor = OutlineExtractor()
+    outline = extractor.extract_outline("tests/test_pdfs/simple.pdf")
+    output = {
+        "title": outline.title,
+        "outline": [
+            {"level": h.level, "text": h.text, "page": h.page_number}
+            for h in outline.outline
+        ],
+    }
+    assert "title" in output
+    assert isinstance(output["outline"], list)
+    for item in output["outline"]:
+        assert set(item.keys()) == {"level", "text", "page"}
