@@ -1,0 +1,15 @@
+# Ignore version control system files
+.git
+
+# Ignore tests and documentation
+/tests
+/docs
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# IDE and system files
+.idea/
+.vscode/
+*.DS_Store
