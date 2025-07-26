@@ -10,7 +10,11 @@ class PDFProcessor:
         with pdfplumber.open(pdf_path) as pdf:
             for page_number, page in enumerate(pdf.pages, start=1):
                 try:
-                    words = page.extract_words(use_text_flow=True, keep_blank_chars=False)
+                    words = page.extract_words(
+                        use_text_flow=True,
+                        keep_blank_chars=False,
+                        extra_attrs=["fontname", "size"],
+                    )
                 except Exception:
                     # fallback simple extraction
                     words = []

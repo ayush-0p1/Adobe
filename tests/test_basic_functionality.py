@@ -36,6 +36,19 @@ def create_test_pdfs():
         page.insert_text((72, 170), "More text", fontsize=12)
         doc.save(structured)
         doc.close()
+
+    mixed = base / "mixed.pdf"
+    if not mixed.exists():
+        doc = fitz.open()
+        page = doc.new_page()
+        page.insert_text((72, 72), "Mixed Document", fontsize=20)
+        page.insert_text((72, 100), "Intro text", fontsize=12)
+        page.insert_text((72, 130), "Bold Heading", fontsize=12, fontname="Times-Bold")
+        page.insert_text((72, 150), "Some content", fontsize=12)
+        page.insert_text((72, 180), "Italic Heading", fontsize=12, fontname="Times-Italic")
+        page.insert_text((72, 200), "More text", fontsize=12)
+        doc.save(mixed)
+        doc.close()
     return str(base)
 
 def test_pdf_processing():
@@ -49,6 +62,14 @@ def test_outline_extraction():
     outline = extractor.extract_outline("tests/test_pdfs/structured.pdf")
     assert outline.title is not None
     assert len(outline.outline) > 0
+
+
+def test_mixed_heading_detection():
+    extractor = OutlineExtractor()
+    outline = extractor.extract_outline("tests/test_pdfs/mixed.pdf")
+    texts = [h.text for h in outline.outline]
+    assert "Bold" in texts
+    assert "Italic" in texts
 
 def test_json_output_format():
     extractor = OutlineExtractor()

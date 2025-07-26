@@ -20,13 +20,19 @@ class StructureAnalyzer:
         return h1, h2, h3
 
     def detect_headings(self, text_blocks: List[TextBlock]) -> List[Heading]:
+        """Return headings using font size, style and positional hints."""
         headings: List[Heading] = []
         if not text_blocks:
             return headings
+
         h1_size, h2_size, h3_size = self._determine_font_thresholds(text_blocks)
+        prev_bottom = None
+        gap_threshold = h3_size * 1.5 if h3_size > 0 else 20
+
         for i, block in enumerate(text_blocks):
             size = block.font_size
             level = None
+
             if h1_size == h2_size == h3_size == 1:
                 if i == 0:
                     level = "H1"
@@ -41,6 +47,17 @@ class StructureAnalyzer:
                     level = "H2"
                 elif size >= h3_size:
                     level = "H3"
+
+            # Additional heuristics using style or layout when font sizes alone
+            # are not sufficiently discriminative.
+            if not level:
+                is_styled = block.is_bold or block.is_italic
+                gap = 0
+                if prev_bottom is not None:
+                    gap = block.bbox[1] - prev_bottom
+                if is_styled or gap > gap_threshold:
+                    level = "H3"
+
             if level:
                 headings.append(
                     Heading(
@@ -49,6 +66,9 @@ class StructureAnalyzer:
                         page_number=block.page_number,
                     )
                 )
+
+            prev_bottom = block.bbox[3]
+
         return headings
 
     def create_outline(self, text_blocks: List[TextBlock], title: str) -> DocumentOutline:
@@ -59,4 +79,5 @@ class StructureAnalyzer:
             extraction_timestamp=datetime.utcnow(),
         )
         return outline
+    
     
