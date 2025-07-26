@@ -34,3 +34,4 @@ class PDFProcessor:
                         )
                     )
         return text_blocks
+    

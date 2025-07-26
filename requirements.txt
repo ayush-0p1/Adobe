@@ -1,8 +1,10 @@
 # Core PDF Processing
 pdfplumber>=0.10.3
+PyMuPDF
 
 # Machine Learning
 scikit-learn>=1.4.0
 
 # Development / Testing
 pytest>=7.4.3
+psutil

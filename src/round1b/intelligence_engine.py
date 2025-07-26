@@ -84,3 +84,4 @@ class IntelligenceEngine:
 
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(output, f, indent=2)
+            

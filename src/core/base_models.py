@@ -38,3 +38,4 @@ class JobToBeDone:
     expected_output: str
     success_criteria: List[str]
     constraints: List[str]
+    

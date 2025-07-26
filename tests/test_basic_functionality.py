@@ -87,3 +87,4 @@ def test_intelligence_engine_process(tmp_path):
     assert first_doc in data["extracted_sections"]
     if data["extracted_sections"][first_doc]:
         assert "importance" in data["extracted_sections"][first_doc][0]
+

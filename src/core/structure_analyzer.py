@@ -59,3 +59,4 @@ class StructureAnalyzer:
             extraction_timestamp=datetime.utcnow(),
         )
         return outline
+    

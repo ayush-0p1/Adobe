@@ -32,3 +32,4 @@ class PerformanceMonitor:
                 logging.warning(f"{operation} exceeded time limit: {metrics['execution_time']:.2f}s")
             if metrics['memory_usage'] > max_memory:
                 logging.warning(f"{operation} exceeded memory limit: {metrics['memory_usage']:.2f}MB")
+
